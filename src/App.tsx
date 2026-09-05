@@ -1,5 +1,8 @@
 import { useState, useEffect, useCallback } from 'react'
 import './index.css'
+import han1 from './assets/han1.webp'
+import han2 from './assets/han2.webp'
+import han3 from './assets/han3.webp'
 
 // ==========================================
 // MẬT KHẨU IPHONE (6 SỐ): 080611
@@ -9,17 +12,17 @@ const PASSCODE_LENGTH = 6
 
 const DEFAULT_PHOTOS = [
   { 
-    url: '/discord_han1.webp', 
+    url: han1, 
     fallbackUrl: 'https://media.discordapp.net/attachments/1529821512385691850/1545775424783777843/att.PGD22TjXXQvQyx9bG8uCmulbU9T3_sV6kMzcn53jZpg.jpg?ex=6a9d5f0c&is=6a9c0d8c&hm=566dad886f5a8d45f3eb59ee8c3b74b0e86a763fe4f04872cafd50dba9a8d461&=&format=webp&width=768&height=1024',
     caption: 'Nụ cười rạng rỡ của Hân 🌸' 
   },
   { 
-    url: '/discord_han2.webp', 
+    url: han2, 
     fallbackUrl: 'https://media.discordapp.net/attachments/1529821512385691850/1545775425123524638/att.81O4AWP-_QwrI7ZPBHL1pC_y5ImQhKF-M2B-ElhPj7k.jpg?ex=6a9d5f0c&is=6a9c0d8c&hm=68dd7fa63268c8785ea5c4e0199fc70d9e8a0bac5d857c15d1d1a58e7420108c&=&format=webp',
     caption: 'Khoảnh khắc ngọt ngào và đáng yêu ✨' 
   },
   { 
-    url: '/discord_han3.webp', 
+    url: han3, 
     fallbackUrl: 'https://media.discordapp.net/attachments/1529821512385691850/1545775425458806818/att.-8JB9mRWnPEbwRYei9-Hyc_WWIPu1_28yDx0nvY2xlM.jpg?ex=6a9d5f0c&is=6a9c0d8c&hm=152d32b3b01ebaf4d2b284aecb5c882eccac51125b4daae056dc3421a3ad2f30&=&format=webp',
     caption: 'Mỗi khoảnh khắc bên Hân đều là bình yên 💕' 
   }
@@ -416,7 +419,16 @@ function App() {
               }}
             >
               <div className="front-avatar-wrapper" onClick={() => setZoomedPhoto(photos[0].url)}>
-                <img src={photos[0].url} alt="Hân" className="front-avatar-img" />
+                <img 
+                  src={photos[0].url} 
+                  alt="Hân" 
+                  className="front-avatar-img" 
+                  onError={(e) => {
+                    if (photos[0].fallbackUrl && e.currentTarget.src !== photos[0].fallbackUrl) {
+                      e.currentTarget.src = photos[0].fallbackUrl
+                    }
+                  }}
+                />
                 <span className="avatar-badge">🌸</span>
               </div>
               <h1 className="title">Gửi Hân</h1>
@@ -445,6 +457,11 @@ function App() {
                       src={activePhoto.url} 
                       alt="Ảnh của Hân" 
                       className="polaroid-img" 
+                      onError={(e) => {
+                        if (activePhoto.fallbackUrl && e.currentTarget.src !== activePhoto.fallbackUrl) {
+                          e.currentTarget.src = activePhoto.fallbackUrl
+                        }
+                      }}
                     />
                   </div>
                   <p className="polaroid-caption">{activePhoto.caption}</p>
